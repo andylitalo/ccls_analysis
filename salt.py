@@ -1177,6 +1177,10 @@ def load_data(data_folder, ext='.PD', num_rows_hdr=2, lB_lo=1, lB_hi=3,
         except:
             print('Loading data for lB = {0:.3f} failed.'.format(lB))
             continue
+     
+    # alerts user if no data found
+    if len(data) == 0:
+        print('No data found in the folder {0:s}'.format(data_folder))
 
     return data
 

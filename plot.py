@@ -1171,7 +1171,7 @@ def fig4(data_pred, df_exp, rho_s_raw_list, rho_p_raw, sigma, T_range,
                         lw=2, c_sup='#1414FF', c_co='#FF0000', ms=8,
                         mfc='w', mew=1.5, x_lim=None, x_label=r'$\rho_{PSS}$',
                         conv_vals=False, tol=1E-6, show_lgnd=False,
-                        figsize=None, pad=3, vertical=True):
+                        figsize=None, pad=3, vertical=True, plot_errorbars=False):
     """
     Validates fit of sigma to experiments.
     """
@@ -1211,18 +1211,29 @@ def fig4(data_pred, df_exp, rho_s_raw_list, rho_p_raw, sigma, T_range,
         # plots experimental results
         for i in range(len(df_exp)):
             rho_p_exp, rho_s_exp, T_exp, \
-            rho_p_sup, rho_p_co = nacl.read_df_exp(df_exp, i,
-                                                    conv_vals=conv_vals)
+            rho_p_sup, rho_p_co, s_rho_p_sup, \
+            s_rho_p_co = nacl.read_df_exp(df_exp, i, conv_vals=conv_vals, 
+                                            read_sigma=plot_errorbars)
             if (rho_p_exp == rho_p) and (rho_s_exp == rho_s):
                 # plots supernatant and coacervate compositions
                 rho_pss_sup = rho_p_sup/2
                 rho_pss_co = rho_p_co/2
-                ax.plot(rho_pss_sup, T_exp, lw=0, marker='o', ms=ms,
-                        markerfacecolor=mfc, markeredgewidth=mew,
-                        markeredgecolor=c_sup, label='Ali et al. (2019), supernatant')
-                ax.plot(rho_pss_co, T_exp, lw=0, marker='o', ms=ms,
-                        markerfacecolor=c_co, markeredgewidth=mew,
-                        markeredgecolor=c_co, label='Ali et al. (2019), coacervate')
+                if plot_errorbars:
+                    s_rho_pss_sup = s_rho_p_sup/2
+                    s_rho_pss_co = s_rho_p_co/2
+                    ax.plot(rho_pss_sup, T_exp, xerr=s_rho_pss_sup, lw=0, marker='o', ms=ms,
+                            markerfacecolor=mfc, markeredgewidth=mew,
+                            markeredgecolor=c_sup, label='Ali et al. (2019), supernatant')
+                    ax.plot(rho_pss_co, T_exp, xerr=s_rho_pss_co, lw=0, marker='o', ms=ms,
+                            markerfacecolor=c_co, markeredgewidth=mew,
+                            markeredgecolor=c_co, label='Ali et al. (2019), coacervate')
+                else:
+                    ax.plot(rho_pss_sup, T_exp, lw=0, marker='o', ms=ms,
+                            markerfacecolor=mfc, markeredgewidth=mew,
+                            markeredgecolor=c_sup, label='Ali et al. (2019), supernatant')
+                    ax.plot(rho_pss_co, T_exp, lw=0, marker='o', ms=ms,
+                            markerfacecolor=c_co, markeredgewidth=mew,
+                            markeredgecolor=c_co, label='Ali et al. (2019), coacervate')
 
     # pads subplots with whitespace
     fig.tight_layout(pad=pad)
