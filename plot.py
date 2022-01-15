@@ -1168,10 +1168,10 @@ def binodal_vary_rho(data, rho_var_list, rho_fix, ch_var, beads_2_M,
 
 
 def fig4(data_pred, df_exp, rho_s_raw_list, rho_p_raw, sigma, T_range,
-                        lw=2, c_sup='#1414FF', c_co='#FF0000', ms=8,
+                        lw=3, c_sup='#1414FF', c_co='#FF0000', ms=11,
                         mfc='w', mew=1.5, x_lim=None, x_label=r'$\rho_{PSS}$',
                         conv_vals=False, tol=1E-6, show_lgnd=False,
-                        figsize=None, pad=3, vertical=True, plot_errorbars=False):
+                        figsize=None, pad=3, vertical=False, plot_errorbars=False):
     """
     Validates fit of sigma to experiments.
     """
@@ -1222,10 +1222,10 @@ def fig4(data_pred, df_exp, rho_s_raw_list, rho_p_raw, sigma, T_range,
                     s_rho_pss_sup = s_rho_p_sup/2
                     s_rho_pss_co = s_rho_p_co/2
                     ax.errorbar(rho_pss_sup, T_exp, xerr=s_rho_pss_sup, lw=0, marker='o', ms=ms,
-                            markerfacecolor=mfc, markeredgewidth=mew,
+                            markerfacecolor=mfc, markeredgewidth=mew, elinewidth=1,
                             markeredgecolor=c_sup, label='Ali et al. (2019), supernatant')
                     ax.errorbar(rho_pss_co, T_exp, xerr=s_rho_pss_co, lw=0, marker='o', ms=ms,
-                            markerfacecolor=c_co, markeredgewidth=mew,
+                            markerfacecolor=c_co, markeredgewidth=mew, elinewidth=1,
                             markeredgecolor=c_co, label='Ali et al. (2019), coacervate')
                 else:
                     ax.plot(rho_pss_sup, T_exp, lw=0, marker='o', ms=ms,
